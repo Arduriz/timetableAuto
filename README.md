@@ -34,21 +34,33 @@ End Sub
 ```
 Sub 셀에내용추가하기()
 	행 = 2
-	열 = 3
+  열 = 3
 
-	'셀 선택하기
-  	Cells(행, 열).Select
+  '셀 선택하기
+  Cells(행, 열).Select
 
-	'셀에 내용 추가하기
-	Selection.Value = "2행 3열"
+  '셀에 내용 추가하기
+  Selection.Value = "2행 3열"
 End Sub
 ```
 
 ## 글자 연결
 ```
 Sub 글자연결하기()
-  무엇 = Range("A1").Value
+	무엇 = Range("A1").Value
   MsgBox ("나는" & 무엇 & "(이)다.")
+End Sub
+```
+
+## 변수
+`a=1`
+
+## 반복
+```
+Sub For문배우기()
+	  For 반복범위 = 1 To 10
+    Range("F" & 반복범위).Value = "반복" & 반복범위
+  Next
 End Sub
 ```
 
