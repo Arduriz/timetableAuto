@@ -1,4 +1,4 @@
-# timetableAuto
+# timetableWizard
 
 # Algorithm
 - 예방정비 복붙
