@@ -89,5 +89,61 @@ End Sub
 ## 3:30 -> 210분
 `Range("a1").Value = (Hour(Range("a2").Value)*60)+Minute(Range("a2").Value)`
 
+# Program
+## 2차원 배열로 로드
+```
+Sub Test()
+	Dim arr(0 To 1, 2 To 10)
+	
+	x = 0
+	y = 0
+    For y = 2 To 10
+        arr(x, y) = Range("A" & y).Value
+    Next
+    
+    y = 0
+    For y = 2 To 10
+        Range("C" & y).Value = (Hour(Range("B" & y).Value)*60)+Minute(Range("B" & y).Value)
+    Next
+    
+    x = 1
+	y = 0
+    For y = 2 To 10
+        arr(x, y) = Range("C" & y).Value
+    Next
+       
+    x = 0
+	y = 0
+    For y = 2 To 10
+        Range("D" & y).Value = arr(x,y) 
+    Next
+    
+    x = 1
+	y = 0
+    For y = 2 To 10
+        Range("E" & y).Value = arr(x,y) 
+    Next    	    
+End Sub
+```
+
+## 시간 합
+```
+    'time Sum
+    timeSum = 0
+    
+    x = 1
+	y = 0 
+    For y = 2 To 10
+        timeSum = arr(x,y) + timeSum 
+    Next
+    
+    Range("F" & 1).Value = timeSum
+```
+
+## 최대값
+
+
+
+
 
 
