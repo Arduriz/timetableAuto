@@ -11,6 +11,8 @@
 ​
 - 그거에 맞게 또 로드해서 하기(큰 것부터)
 
+---
+
 # Excel Fn.
 ## 3:30 -> 210분
 =(HOUR(A2)*60)+MINUTE(A2)
@@ -89,10 +91,13 @@ End Sub
 ## 3:30 -> 210분
 `Range("a1").Value = (Hour(Range("a2").Value)*60)+Minute(Range("a2").Value)`
 
+---
+
 # Program
-## 2차원 배열로 로드
+## 2차원 배열로 로드해서 최대값 2개 찾기
 ```
 Sub Test()
+	'2D array LD
 	Dim arr(0 To 1, 2 To 10)
 	
 	x = 0
@@ -111,7 +116,8 @@ Sub Test()
     For y = 2 To 10
         arr(x, y) = Range("C" & y).Value
     Next
-       
+    
+    'show arr   
     x = 0
 	y = 0
     For y = 2 To 10
@@ -122,12 +128,8 @@ Sub Test()
 	y = 0
     For y = 2 To 10
         Range("E" & y).Value = arr(x,y) 
-    Next    	    
-End Sub
-```
-
-## 시간 합
-```
+    Next
+    
     'time Sum
     timeSum = 0
     
@@ -138,10 +140,73 @@ End Sub
     Next
     
     Range("F" & 1).Value = timeSum
+    
+    'max
+    maxIdx = 0
+    
+    x = 1
+	y = 0
+    For y = 2+1 To 10
+        If arr(x,y) > arr(x,y-1) Then
+        	maxIdx = y       	
+        End If
+    Next
+    
+    Range("G" & 2).Value = arr(0,maxIdx)
+    Range("H" & 2).Value = arr(1,maxIdx)
+    
+    'delete max
+    y = maxIdx
+    For x = 0 To 1
+    	arr(x,y) = 0
+    Next
+    
+    x = 0 'show arr
+	y = 0
+    For y = 2 To 10
+        Range("D" & y).Value = arr(x,y) 
+    Next
+    
+    x = 1
+	y = 0
+    For y = 2 To 10
+        Range("E" & y).Value = arr(x,y) 
+    Next 
+    
+    'max 2nd
+    maxIdx = 0
+    
+    x = 1
+	y = 0
+    For y = 2+1 To 10
+        If arr(x,y) > arr(x,y-1) Then
+        	maxIdx = y       	
+        End If
+    Next
+    
+    Range("G" & 3).Value = arr(0,maxIdx)
+    Range("H" & 3).Value = arr(1,maxIdx)
+       
+    y = maxIdx 'delete
+    For x = 0 To 1 
+    	arr(x,y) = 0
+    Next
+    
+    x = 0 'show arr
+	y = 0
+    For y = 2 To 10
+        Range("D" & y).Value = arr(x,y) 
+    Next
+    
+    x = 1
+	y = 0
+    For y = 2 To 10
+        Range("E" & y).Value = arr(x,y) 
+    Next
+      
+End Sub
 ```
-
-## 최대값
-
+      
 
 
 
