@@ -34,13 +34,13 @@ End Sub
 ```
 Sub 셀에내용추가하기()
 	행 = 2
-  열 = 3
+    열 = 3
 
-  '셀 선택하기
-  Cells(행, 열).Select
+    '셀 선택하기
+    Cells(행, 열).Select
 
-  '셀에 내용 추가하기
-  Selection.Value = "2행 3열"
+    '셀에 내용 추가하기
+    Selection.Value = "2행 3열"
 End Sub
 ```
 
@@ -48,7 +48,7 @@ End Sub
 ```
 Sub 글자연결하기()
 	무엇 = Range("A1").Value
-  MsgBox ("나는" & 무엇 & "(이)다.")
+    MsgBox ("나는" & 무엇 & "(이)다.")
 End Sub
 ```
 
@@ -58,11 +58,36 @@ End Sub
 ## 반복
 ```
 Sub For문배우기()
-	  For 반복범위 = 1 To 10
-    Range("F" & 반복범위).Value = "반복" & 반복범위
-  Next
+    For 반복범위 = 1 To 10
+        Range("F" & 반복범위).Value = "반복" & 반복범위
+    Next
 End Sub
 ```
+
+## 조건
+```
+Sub if문배우기()
+	사원명 = Range("b2").Value
+	부서 = Range("c2").Value
+
+	If 사원명 = "김경록" Then
+    	MsgBox ("해당 사원명은 김경록이 맞습니다.")
+	Else
+    	MsgBox ("해당 사원명은 김경록이 아닙니다.")
+	End If
+End Sub
+```
+
+## 셀주소
+```
+Sub 선택셀주소가져오기()
+	Range("b2").Select
+	Range("a10").Value = Selection.Address
+End Sub
+```
+
+## 3:30 -> 210분
+`Range("a1").Value = (Hour(Range("a2").Value)*60)+Minute(Range("a2").Value)`
 
 
 
