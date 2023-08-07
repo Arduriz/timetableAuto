@@ -208,6 +208,95 @@ End Sub
 ```
 
 
+## find 3:30 미완성
+```
+Sub Test()
+	'2D array LD
+	Dim arr(0 To 1, 2 To 10)
+	
+	x = 0
+	y = 0
+    For y = 2 To 10
+        arr(x, y) = Range("A" & y).Value
+    Next
+    
+    y = 0
+    For y = 2 To 10
+        Range("C" & y).Value = (Hour(Range("B" & y).Value)*60)+Minute(Range("B" & y).Value)
+    Next
+    
+    x = 1
+	y = 0
+    For y = 2 To 10
+        arr(x, y) = Range("C" & y).Value
+    Next
+    
+    'show arr   
+    x = 0
+	y = 0
+    For y = 2 To 10
+        Range("D" & y).Value = arr(x,y) 
+    Next
+    
+    x = 1
+	y = 0
+    For y = 2 To 10
+        Range("E" & y).Value = arr(x,y) 
+    Next
+    
+    'time Sum
+    timeSum = 0
+    
+    x = 1
+	y = 0 
+    For y = 2 To 10
+        timeSum = arr(x,y) + timeSum 
+    Next
+    
+    Range("F" & 1).Value = timeSum
+    
+	'find 3:30
+	am = 0
+	
+	x = 1
+	y = 0 
+    For y = 2 To 10
+        If arr(x,y) = 210 Then
+        	am = y
+        	Range("G" & 2).Value = arr(0,maxIdx)
+    
+        	Range("H" & 2).Value = arr(1,maxIdx)
+        	   	
+    		y = am 'delete
+		    For x = 0 To 1
+		    	arr(x,y) = 0
+		    Next
+		    
+		    x = 0 'show arr
+			y = 0
+		    For y = 2 To 10
+		        Range("D" & y).Value = arr(x,y) 
+		    Next
+		    
+		    x = 1
+			y = 0
+		    For y = 2 To 10
+		        Range("E" & y).Value = arr(x,y) 
+		    Next
+		End If
+	Next
+    
+    If am = 0 Then
+    	x = 1   	
+    	i = 0
+    	j = 0
+    	am1 = 0
+    	am2 = 0
+    	For i = 2 To 10-1
+    		For j = i+1 To 10
+      			If arr(x,i)+arr(x,j) = 210
+End Sub
+```
       
 
 
