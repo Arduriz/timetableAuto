@@ -2,23 +2,26 @@
 
 # Algorithm
 ## 예방정비 복붙
-- [ ] 예방정비 복붙 - ctrl+c -> ctrl+alt+v -> 값 및 숫자 서식 붙여넣기
+- [x] 예방정비 복붙 - ctrl+c -> ctrl+alt+v -> 값 및 숫자 서식 붙여넣기
 
 ## 배열에 예방정비 집어 넣기
 
 ## 3:30 찾기
-- [ ] 3:30이 있으면 그걸 불러오기
+- [x] 3:30이 있으면 그걸 불러오기
 ​
-- [ ] 3:30이 없으면 합이 3:30 되는 애들 불러오기
+- [x] 3:30이 없으면 합이 3:30 되는 애들 불러오기
 
 ## 나머지
 ### 큰 거부터 차례로 넣기 - 단순
-- [ ] alpha, bravo, charlie, charlie, bravo, alpha, alpha ... 순으로 큰 거부터 차례로 넣기
-- [ ] 시간 합을 다 더해서 "최댓값에서부터의 차이"(차이)를 보기
+- [x] alpha, bravo, charlie, charlie, bravo, alpha, alpha ... 순으로 큰 거부터 차례로 넣기
+- [x] 시간 합을 다 더해서 "최댓값에서부터의 차이"(차이)를 보기
 - [ ] 차이 이하의 시간이 최댓값에 있었다면 그걸 옮기기
 
 ### 시간 총합을 3으로 나누고 분배
 
+## 기타
+- [ ] 설명이랑 주석 달 필요가 있음
+- [ ] 그리고 vba 함수들 정리할 필요도 있음
 ---
 
 # Excel Fn.
@@ -212,97 +215,6 @@ Sub Test()
         Range("E" & y).Value = arr(x,y) 
     Next
       
-End Sub
-```
-
-
-## find 3:30 미완성
-```
-Sub Test()
-	'2D array LD
-	Dim arr(0 To 1, 2 To 10)
-	
-	x = 0
-	y = 0
-    For y = 2 To 10
-        arr(x, y) = Range("A" & y).Value
-    Next
-    
-    y = 0
-    For y = 2 To 10
-        Range("C" & y).Value = (Hour(Range("B" & y).Value)*60)+Minute(Range("B" & y).Value)
-    Next
-    
-    x = 1
-	y = 0
-    For y = 2 To 10
-        arr(x, y) = Range("C" & y).Value
-    Next
-    
-    'show arr   
-    x = 0
-	y = 0
-    For y = 2 To 10
-        Range("D" & y).Value = arr(x,y) 
-    Next
-    
-    x = 1
-	y = 0
-    For y = 2 To 10
-        Range("E" & y).Value = arr(x,y) 
-    Next
-    
-    'time Sum
-    timeSum = 0
-    
-    x = 1
-	y = 0 
-    For y = 2 To 10
-        timeSum = arr(x,y) + timeSum 
-    Next
-    
-    Range("F" & 1).Value = timeSum
-    
-	'find 3:30
-	am = 0
-	
-	x = 1
-	y = 0 
-    For y = 2 To 10
-        If arr(x,y) = 210 Then
-        	am = y
-        	Range("G" & 2).Value = arr(0,maxIdx)
-    
-        	Range("H" & 2).Value = arr(1,maxIdx)
-        	   	
-    		y = am 'delete
-		    For x = 0 To 1
-		    	arr(x,y) = 0
-		    Next
-		    
-		    x = 0 'show arr
-			y = 0
-		    For y = 2 To 10
-		        Range("D" & y).Value = arr(x,y) 
-		    Next
-		    
-		    x = 1
-			y = 0
-		    For y = 2 To 10
-		        Range("E" & y).Value = arr(x,y) 
-		    Next
-		End If
-	Next
-    
-    If am = 0 Then
-    	x = 1   	
-    	i = 0
-    	j = 0
-    	am1 = 0
-    	am2 = 0
-    	For i = 2 To 10-1
-    		For j = i+1 To 10
-      			If arr(x,i)+arr(x,j) = 210
 End Sub
 ```
       
