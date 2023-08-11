@@ -69,7 +69,7 @@ End Sub
 ```
 
 ## 변수
-`a=1`
+`a = 1`
 
 * VBS는 VBA와 다르게 자료형 선언하면 안 됨
 
@@ -138,6 +138,7 @@ End Sub
 
 ## 배열
 `Dim arr(1 To 4, 2 To 10)`
+
 `arr(1, 2) = Range("A1").Value`
 
 ## 글자색
