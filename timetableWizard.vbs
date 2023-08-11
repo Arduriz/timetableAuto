@@ -5,34 +5,33 @@ Public Const rowRanInit = 2
 Public Const rowRanFin = 10
 
 'define print range
-Public Const printColumnRanInit = 1 'A
+Public Const printColumnRanInit = 1 'A column
 Public Const printRowRanInit = 15
 
-'define etc.
-Public Const personNum = 3
+'-------------------------------------------------------
 
-Function showArr(arr, col1, col2) 'show arr   
-    x = element
+Function showArr(arr, col1, col2) 'show arr
+	'* arr에 들어있는 값들을 for문으로 정해진 셀 범위에 출력   
     For y = rowRanInit To rowRanFin
-        Range(col1 & y).Value = arr(x,y) 
+        Range(col1 & y).Value = arr(element,y) 
     Next
     
-    x = timeVal
     For y = rowRanInit To rowRanFin
-        Range(col2 & y).Value = arr(x,y) 
+        Range(col2 & y).Value = arr(timeVal,y) 
     Next
 End Function
 
-Function delCol(arr, col) 'delete column   
-	For x = element To timeVal
-		arr(x,col) = 0
-	Next
+Function delCol(arr, col) 'delete column
+	'* arr에서 정해진 column의 row값들을 제거   
+	arr(element,col) = Empty
+	arr(timeVal,col) = 0
 End Function
 
-Function findAm(arr, amTime, col) 'find 3:30, 3개의 합까지 찾을 수 있는데 추가하면 더 가능
-   	x = timeVal   	
-   	For i = rowRanInit To rowRanFin '3:30을 만족하는 애가 있으면 걔를 최우선적으로 넣어줄려고 for문을 따로 만듦 
-   		If arr(x,i) = amTime Then
+Function findAm(arr, amTime, col) 'find 3:30, 시간 3개의 합까지 찾을 수 있는데 추가하면 더 가능	
+	'* [시간 값] 또는 [시간 값들의 합]이 210(3:30)인 애들을 찾고 print, 3:30 뒤에 "점심시간"까지 print
+	'* 3:30을 만족하는 애가 있으면 걔를 최우선적으로 넣어줄려고 for문을 따로 만듦
+   	For i = rowRanInit To rowRanFin  
+   		If arr(timeVal,i) = amTime Then
    	    	am1 = i
         	Cells(printRowRanInit , col).Value = arr(element,am1) '<Cells>는 <Range>와 x,y 순서가 반대  
         	Cells(printRowRanInit , col).Offset(0, 1).Value = arr(timeVal,am1) '<Offset>은 y,x 순서
@@ -47,6 +46,7 @@ Function findAm(arr, amTime, col) 'find 3:30, 3개의 합까지 찾을 수 있�
 	
 	For i = rowRanInit To rowRanFin
     	For j = i+1 To rowRanFin
+    		x = timeVal
       		If arr(x,i)+arr(x,j) = amTime and arr(x,i) <> 0 and arr(x,j) <> 0 Then
       			am1 = i
       			am2 = j	
@@ -93,6 +93,7 @@ Function findAm(arr, amTime, col) 'find 3:30, 3개의 합까지 찾을 수 있�
 End Function
 
 Function maxfn(arr, maxVal, maxIdx) 'max
+	'* arr에서 최댓값을 찾아주는 함수
 	For y = rowRanInit To rowRanFin
         If arr(timeVal, y) > maxVal Then
         	maxVal = arr(timeVal, y)
@@ -101,47 +102,82 @@ Function maxfn(arr, maxVal, maxIdx) 'max
     Next
 End Function
 
+Function countfn(arr)
+	'* arr에 남아있는 값의 개수
+    countfn = 0
+    For i = rowRanInit To rowRanFin
+    	If arr(timeVal, i) <> 0 Then
+    		countfn = countfn + 1
+    	End If
+    Next
+End Function
+
+'---------------------------------------------------
+
 Sub TimetableWizard()
+	personNum = Range("A1").Value 'set person number
+	If personNum <> 1 and personNum <> 2 and personNum <> 3 and personNum <> 4 Then
+		 MsgBox ("Error" & vbCrLf & "사람 수는 1, 2, 3, 4만 가능합니다.")
+		 Exit Sub
+	End If
+		 
 	Dim arr(element To timeVal, rowRanInit To rowRanFin) 'define 2D array
 	
-	'2D array LD		
-	x = element
+	'2D array LD
+	'* 정해진 범위에서 [요소]와 [시간 값]을 로드에서 arr에 입력		
     For y = rowRanInit To rowRanFin
-        arr(x, y) = Range("A" & y).Value
+        arr(element, y) = Range("A" & y).Value
     Next
     
     For y = rowRanInit To rowRanFin '3:30 -> 210
         Range("C" & y).Value = (Hour(Range("B" & y).Value)*60)+Minute(Range("B" & y).Value)
     Next
     
-    x = timeVal
     For y = rowRanInit To rowRanFin
-        arr(x, y) = Range("C" & y).Value
+        arr(timeVal, y) = Range("C" & y).Value
     Next
     
     Call showArr(arr, "D", "E")
     
-    'time Sum
-    timeSum = 0
-    
-    x = timeVal
-    For y = rowRanInit To rowRanFin
-        timeSum = arr(x,y) + timeSum 
+    'print clear
+    '* print 할 범위의 셀들을 모두 clear
+    For i = printColumnRanInit To printColumnRanInit + 8
+    	For j = printRowRanInit To printRowRanInit + 15
+    		Cells(j , i).Font.Color = RGB(0, 0, 0)
+    		Cells(j , i).Value =  Empty
+    	Next
     Next
     
-    Range("F" & 1).Value = timeSum
-    
     'find 3:30, distribute AM
+    '* <findAm> 함수로 오전을 채움
     For i = 1 To personNum
     	Call findAm(arr, 210, printColumnRanInit+((i-1)*2))
     Next
     
-    'distribute PM
-    '점심시간의 위치를 각각 찾기 위한 알고리즘 - 배열에 점심시간 다음 셀의 위치를 넣음
+    '* 오전을 3:30으로 딱맞게 못채우는 error
+    lunchCount = 0
+    For i = printColumnRanInit To printColumnRanInit + 8
+    	For j = printRowRanInit To printRowRanInit + 15
+    		If Cells(j , i).Value = "점심시간" Then
+    			lunchCount = lunchCount + 1
+    		End If
+    	Next
+    Next
+    If lunchCount <> personNum Then
+    	MsgBox ("Error" & vbCrLf & "모든 인원의 오전을 3:30로 딱맞게 채울 수가 없습니다." & vbCrLf & "따라서 오늘은 시간표마법사를 사용할 수 없습니다.")
+    	Exit Sub
+    End If
+    
+    
+    'distribute PM, 여기서부터 오후를 채우는 알고리즘
+    
+    '각각의 사람들의 [시간 값]을 print할 위치를 넣는 array
     Dim arrPrintLoc(1 To 3, 1 To 4)
     For i = 1 To personNum
     	arrPrintLoc(1, i) = "person" & i
     Next   
+    
+    '점심시간의 위치를 각각 찾기 위한 알고리즘 - 배열에 점심시간 다음 셀의 위치를 넣음
     For i = printColumnRanInit To printColumnRanInit+((personNum-1)*2) Step 2
     	arrPrintLoc(2, (i+1)/2) = i
     	For j = printRowRanInit To printRowRanInit+5
@@ -150,47 +186,50 @@ Sub TimetableWizard()
     			Exit For
     		End If
     	Next
-    Next 
-
-    'arr에 남아있는 값의 개수
-    count = 0
-    For i = rowRanInit To rowRanFin
-    	If arr(timeVal, i) <> 0 Then
-    		count = count + 1
-    	End If
     Next
-    
+
+    count = countfn(arr)  
     timeNumQ = count \ personNum
-    timeNumR = count Mod personNum
     
-    'distribute PM
+    'distribute PM & print
+    '* alpha, bravo, charlie, charlie, bravo, alpha, alpha ... 순으로 [시간 값]을 큰 거부터 차례로 넣기
     maxVal = 0
     maxIdx = 0
     
     For i = 1 To timeNumQ
-    	For j = 1 To personNum
-    		maxVal = 0
-    		Call maxfn(arr, maxVal, maxIdx)
-    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)).Value = arr(element, maxIdx)
-    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)+1).Value = maxVal
-    		arrPrintLoc(3,j) = arrPrintLoc(3,j) + 1
-    		Call delcol(arr, maxIdx)
-    	Next
-    	For j = personNum To 1 Step -1
-    		maxVal = 0
-    		Call maxfn(arr, maxVal, maxIdx)
-    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)).Value = arr(element, maxIdx)
-    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)+1).Value = maxVal
-    		arrPrintLoc(3,j) = arrPrintLoc(3,j) + 1
-    		Call delcol(arr, maxIdx)
-    	Next
+    	count = countfn(arr) '무의미한 값들을 없애기 위해 계속 count하면서 arr에 [시간 값]이 있어야만 출력
+    	If count <> 0 Then
+	    	For j = 1 To personNum
+	    		maxVal = 0
+	    		Call maxfn(arr, maxVal, maxIdx)
+	    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)).Value = arr(element, maxIdx)
+	    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)+1).Value = maxVal
+	    		arrPrintLoc(3,j) = arrPrintLoc(3,j) + 1
+	    		Call delcol(arr, maxIdx)   		
+	    	Next
+	    End If
+    	count = countfn(arr)
+    	If count <> 0 Then
+	    	For j = personNum To 1 Step -1
+	    		maxVal = 0
+	    		Call maxfn(arr, maxVal, maxIdx)
+	    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)).Value = arr(element, maxIdx)
+	    		Cells(arrPrintLoc(3,j), arrPrintLoc(2,j)+1).Value = maxVal
+	    		arrPrintLoc(3,j) = arrPrintLoc(3,j) + 1
+	    		Call delcol(arr, maxIdx)
+	    	Next
+	    End If
     Next
     
     'timeSum
+    '* 각각의 [시간 값]들의 합을 보여줌
     For i = 1 To personNum	
     	timeSum = 0
     	For j = printRowRanInit To arrPrintLoc(3,i)
     		timeSum = timeSum + Cells(j, arrPrintLoc(2,i)+1).Value
+    		Cells(arrPrintLoc(3,i)+2, arrPrintLoc(2,i)).Font.Color = RGB(0, 0, 255)
+    		Cells(arrPrintLoc(3,i)+2, arrPrintLoc(2,i)).Value = "timeSum:"
+    		Cells(arrPrintLoc(3,i)+2, arrPrintLoc(2,i)+1).Font.Color = RGB(0, 0, 255)
     		Cells(arrPrintLoc(3,i)+2, arrPrintLoc(2,i)+1).Value = timeSum	
     	Next
     Next
