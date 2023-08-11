@@ -15,20 +15,16 @@
 ### 큰 거부터 차례로 넣기 - 단순
 - [x] alpha, bravo, charlie, charlie, bravo, alpha, alpha ... 순으로 큰 거부터 차례로 넣기
 - [x] 시간 합을 다 더해서 "최댓값에서부터의 차이"(차이)를 보기
-- [ ] 차이 이하의 시간이 최댓값에 있었다면 그걸 옮기기
+- [ ] 차이 이하의 시간이 최댓값에 있었다면 그걸 옮기기 - 이거말고도 변수가 너무 많아서 이거 해도 큰 의미 없음
 
 ### 시간 총합을 3으로 나누고 분배
 
 ## 기타
-- [ ] 설명이랑 주석 달 필요가 있음
+- [x] 설명이랑 주석 달 필요가 있음
 - [ ] 그리고 vba 함수들 정리할 필요도 있음
 ---
 
-# Excel Fn.
-## 3:30 -> 210분
-=(HOUR(A2)*60)+MINUTE(A2)
-
-# VBA
+# VBA (VBS)
 ## 기본 구조
 ```
 Sub helloWorld()
@@ -40,20 +36,26 @@ End Sub
 ## 주석
 '로 주석 사용
 
-## Range
-`Range("a1").Value = "hello Wolrd"`
-
-## 셀 선택
+## 셀 선택 & 값 입력, 셀 값 로드
 ```
 Sub 셀에내용추가하기()
-	행 = 2
-    열 = 3
+	row = 2
+    col = 3 'A열 = 1, B열 = 2, ...
 
     '셀 선택하기
-    Cells(행, 열).Select
+	Range("C" & 2).Select
+	Range("C2").Select
+    Cells(row, col).Select
 
     '셀에 내용 추가하기
     Selection.Value = "2행 3열"
+
+	'값 입력
+	Range("C2").Value = "hello Wolrd"
+	Cells(row, col).Value = "hello Wolrd"
+
+	'셀 값 로드
+	 row = Range("C2").Value
 End Sub
 ```
 
@@ -68,10 +70,12 @@ End Sub
 ## 변수
 `a=1`
 
+* VBS는 VBA와 다르게 자료형 선언하면 안 됨
+
 ## 반복
 ```
 Sub For문배우기()
-    For 반복범위 = 1 To 10
+    For 반복범위 = 1 To 10 '* 1~10, 1~9 X
         Range("F" & 반복범위).Value = "반복" & 반복범위
     Next
 End Sub
@@ -99,124 +103,38 @@ Sub 선택셀주소가져오기()
 End Sub
 ```
 
-## 3:30 -> 210분
-`Range("a1").Value = (Hour(Range("a2").Value)*60)+Minute(Range("a2").Value)`
+## 상수 define
+`Public Const element = 0`
 
+## 함수 선언, 호출, 값 반환
+```vbs
+'선언
+Function delCol(arr, col) 'delete column
+	'* arr에서 정해진 column의 row값들을 제거   
+	arr(element,col) = Empty
+	arr(timeVal,col) = 0
+End Function
+
+Function countfn(arr)
+	'* arr에 남아있는 값의 개수
+    countfn = 0 '값을 반환하려면 함수 이름과 변수명이 같아야 함 
+    For i = rowRanInit To rowRanFin
+    	If arr(timeVal, i) <> 0 Then
+    		countfn = countfn + 1
+    	End If
+    Next
+End Function
+
+'호출
+Call delCol(arr, am1)
+
+'값 반환
+count = countfn(arr)
+```
 ---
 
-# Program
-## 2차원 배열로 로드해서 최대값 2개 찾기
-```
-Sub Test()
-	'2D array LD
-	Dim arr(0 To 1, 2 To 10)
-	
-	x = 0
-	y = 0
-    For y = 2 To 10
-        arr(x, y) = Range("A" & y).Value
-    Next
-    
-    y = 0
-    For y = 2 To 10
-        Range("C" & y).Value = (Hour(Range("B" & y).Value)*60)+Minute(Range("B" & y).Value)
-    Next
-    
-    x = 1
-	y = 0
-    For y = 2 To 10
-        arr(x, y) = Range("C" & y).Value
-    Next
-    
-    'show arr   
-    x = 0
-	y = 0
-    For y = 2 To 10
-        Range("D" & y).Value = arr(x,y) 
-    Next
-    
-    x = 1
-	y = 0
-    For y = 2 To 10
-        Range("E" & y).Value = arr(x,y) 
-    Next
-    
-    'time Sum
-    timeSum = 0
-    
-    x = 1
-	y = 0 
-    For y = 2 To 10
-        timeSum = arr(x,y) + timeSum 
-    Next
-    
-    Range("F" & 1).Value = timeSum
-    
-    'max
-    maxIdx = 0
-    
-    x = 1
-	y = 0
-    For y = 2+1 To 10
-        If arr(x,y) > arr(x,y-1) Then
-        	maxIdx = y       	
-        End If
-    Next
-    
-    Range("G" & 2).Value = arr(0,maxIdx)
-    Range("H" & 2).Value = arr(1,maxIdx)
-    
-    'delete max
-    y = maxIdx
-    For x = 0 To 1
-    	arr(x,y) = 0
-    Next
-    
-    x = 0 'show arr
-	y = 0
-    For y = 2 To 10
-        Range("D" & y).Value = arr(x,y) 
-    Next
-    
-    x = 1
-	y = 0
-    For y = 2 To 10
-        Range("E" & y).Value = arr(x,y) 
-    Next 
-    
-    'max 2nd
-    maxIdx = 0
-    
-    x = 1
-	y = 0
-    For y = 2+1 To 10
-        If arr(x,y) > arr(x,y-1) Then
-        	maxIdx = y       	
-        End If
-    Next
-    
-    Range("G" & 3).Value = arr(0,maxIdx)
-    Range("H" & 3).Value = arr(1,maxIdx)
-       
-    y = maxIdx 'delete
-    For x = 0 To 1 
-    	arr(x,y) = 0
-    Next
-    
-    x = 0 'show arr
-	y = 0
-    For y = 2 To 10
-        Range("D" & y).Value = arr(x,y) 
-    Next
-    
-    x = 1
-	y = 0
-    For y = 2 To 10
-        Range("E" & y).Value = arr(x,y) 
-    Next
-      
-End Sub
-```
+## 3:30 -> 210분
+`Range("a1").Value = (Hour(Range("a2").Value)*60)+Minute(Range("a2").Value)`
       
 
 
