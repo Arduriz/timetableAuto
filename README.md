@@ -26,7 +26,7 @@
 
 # VBA (VBS)
 ## 기본 구조
-```
+```vbs
 Sub helloWorld()
     'Sheet1의 "A1"에 "hello world"를 출력 하시오.
     Sheet1.Range("A1").Value = "hello world"
@@ -37,7 +37,7 @@ End Sub
 '로 주석 사용
 
 ## 셀 선택 & 값 입력, 셀 값 로드
-```
+```vbs
 Sub 셀에내용추가하기()
 	row = 2
     col = 3 'A열 = 1, B열 = 2, ...
@@ -53,6 +53,7 @@ Sub 셀에내용추가하기()
 	'값 입력
 	Range("C2").Value = "hello Wolrd"
 	Cells(row, col).Value = "hello Wolrd"
+	Cells(row, col).Value = Empty '빈칸
 
 	'셀 값 로드
 	 row = Range("C2").Value
@@ -60,7 +61,7 @@ End Sub
 ```
 
 ## 글자 연결
-```
+```vbs
 Sub 글자연결하기()
 	무엇 = Range("A1").Value
     MsgBox ("나는" & 무엇 & "(이)다.")
@@ -73,16 +74,20 @@ End Sub
 * VBS는 VBA와 다르게 자료형 선언하면 안 됨
 
 ## 반복
-```
+```vbs
 Sub For문배우기()
     For 반복범위 = 1 To 10 '* 1~10, 1~9 X
         Range("F" & 반복범위).Value = "반복" & 반복범위
+    Next
+
+	For i = 1 To 10 Step 2
+    	arrPrintLoc(2, (i+1)/2) = i
     Next
 End Sub
 ```
 
 ## 조건
-```
+```vbs
 Sub if문배우기()
 	사원명 = Range("b2").Value
 	부서 = Range("c2").Value
@@ -92,14 +97,6 @@ Sub if문배우기()
 	Else
     	MsgBox ("해당 사원명은 김경록이 아닙니다.")
 	End If
-End Sub
-```
-
-## 셀주소
-```
-Sub 선택셀주소가져오기()
-	Range("b2").Select
-	Range("a10").Value = Selection.Address
 End Sub
 ```
 
@@ -131,11 +128,39 @@ Call delCol(arr, am1)
 '값 반환
 count = countfn(arr)
 ```
+
+## 메세지창
+```vbs
+Sub TimetableWizard()
+	MsgBox ("Error" & vbCrLf & "사람 수는 1, 2, 3, 4만 가능합니다.") 'vba에서 \n은 vbCrLf로 코드처럼 사용해야함
+End Sub
+```
+
+## 배열
+`Dim arr(1 To 4, 2 To 10)`
+`arr(1, 2) = Range("A1").Value`
+
+## 글자색
+`Cells(j , i).Font.Color = RGB(0, 0, 0)`
+
+## 연산자
+![image](https://github.com/Arduriz/timetableWizard/assets/65582244/d45ab85e-caf3-4dfc-b5ee-d77f446c97fc)
+
+
+* 셀주소
+```vbs
+Sub 선택셀주소가져오기()
+	Range("b2").Select
+	Range("a10").Value = Selection.Address
+End Sub
+```
+
 ---
 
 ## 3:30 -> 210분
 `Range("a1").Value = (Hour(Range("a2").Value)*60)+Minute(Range("a2").Value)`
-      
+
+
 
 
 
