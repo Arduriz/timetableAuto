@@ -161,6 +161,9 @@ End Sub
 ## 3:30 -> 210분
 `Range("a1").Value = (Hour(Range("a2").Value)*60)+Minute(Range("a2").Value)`
 
+## 매크로 실행 버튼
+`입력` - `양식 개체` - `명령 단추`
+
 
 
 
