@@ -38,7 +38,7 @@ Function findAm(arr, amTime, col) 'find 3:30, 시간 3개의 합까지 찾을 �
         	Cells(printRowRanInit+1 , col).Value = "점심시간"   
         	
         	Call delCol(arr, am1)	    
-			Call showarr(arr, "D", "E")
+			'Call showarr(arr, "D", "E")
 			
 		    Exit Function
 		End If
@@ -58,7 +58,7 @@ Function findAm(arr, amTime, col) 'find 3:30, 시간 3개의 합까지 찾을 �
         		
         		Call delCol(arr, am1)
         		Call delCol(arr, am2)	    
-				Call showarr(arr, "D", "E")  
+				'Call showarr(arr, "D", "E")  
 				
 				Exit Function			
       		End If
@@ -83,7 +83,7 @@ Function findAm(arr, amTime, col) 'find 3:30, 시간 3개의 합까지 찾을 �
 	        		Call delCol(arr, am1)
 	        		Call delCol(arr, am2)	 
 	        		Call delCol(arr, am3)   
-					Call showarr(arr, "D", "E")  
+					'Call showarr(arr, "D", "E")  
 					
 					Exit Function			
 	      		End If
@@ -137,7 +137,7 @@ Sub TimetableWizard()
         arr(timeVal, y) = Range("C" & y).Value
     Next
     
-    Call showArr(arr, "D", "E")
+    'Call showArr(arr, "D", "E")
     
     'print clear
     '* print 할 범위의 셀들을 모두 clear
@@ -233,5 +233,5 @@ Sub TimetableWizard()
     	Next
     Next
     
-    Call showArr(arr, "D", "E")   
+    'Call showArr(arr, "D", "E")   
 End Sub
