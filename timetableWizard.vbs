@@ -167,8 +167,7 @@ Sub TimetableWizard()
     	MsgBox ("Error" & vbCrLf & "모든 인원의 오전을 3:30로 딱맞게 채울 수가 없습니다." & vbCrLf & "따라서 오늘은 시간표마법사를 사용할 수 없습니다.")
     	Exit Sub
     End If
-    
-    
+        
     'distribute PM, 여기서부터 오후를 채우는 알고리즘
     
     '각각의 사람들의 [시간 값]을 print할 위치를 넣는 array
