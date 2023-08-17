@@ -15,11 +15,13 @@
 ### 큰 거부터 차례로 넣기 - 단순
 - [x] alpha, bravo, charlie, charlie, bravo, alpha, alpha ... 순으로 큰 거부터 차례로 넣기
 - [x] 시간 합을 다 더해서 "최댓값에서부터의 차이"(차이)를 보기
+
 \timetableWizard beta.vbs
 
 ### 시간 합이 제일 작은 사람부터 하나씩 넣기
 - [x] 각 사람별로 시간 합을 더해서 시간 합이 제일 작은 사람 찾기
 - [x] 그 사람부터 하나씩 큰 값을 넣기
+
 \timetableWizard.vbs
 
 ## 기타
