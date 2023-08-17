@@ -6,6 +6,8 @@
 보안으로 인해 `timetableWizard.xlsm`의 요소와 시간은 실제와 다른 예시이며 내용은 비워두었다. <br>
 `timetableWizard.vbs`가 최종 소스코드이다.
 
+![image](https://github.com/Arduriz/timetableWizard/assets/65582244/45940e1d-24b3-4bc6-b85e-e2699a2fc2eb)
+
 ---
 
 # Algorithm
